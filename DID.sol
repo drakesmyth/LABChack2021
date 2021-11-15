@@ -37,7 +37,7 @@ contract DID is Context, AccessControl, ERC721 {
     modifier isContractAdmin() {
         require(
             hasRole(CONTRACT_ADMIN_ROLE, _msgSender()),
-            "AT:MOD-ICA:Calling address does not belong to a contract admin"
+            "MOD:Calling address does not belong to a contract admin"
         );
         _;
     }
