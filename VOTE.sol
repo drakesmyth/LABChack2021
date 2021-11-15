@@ -79,9 +79,12 @@ contract VOTE is AccessControl {
      * @dev Mints DID to msgSender address, along with airdrop allotment
      */
     function getDID() external {
+        //^^^^^^checks^^^^^^^^^
         tokenId++;
+        //^^^^^^effects^^^^^^^^^
         DID.mintDID(_msgSender(), tokenId);
         TOKEN.mint(_msgSender(), airdrop);
+        //^^^^^^interactions^^^^^^^^^
     }
 
     /**
@@ -91,9 +94,11 @@ contract VOTE is AccessControl {
     function createProposal(bytes32 _proposal) external {
         uint256 expiration = block.timestamp + weekInSeconds;
         require(DID.balanceOf(_msgSender()) == 1, "caller !hold DID");
+        //^^^^^^checks^^^^^^^^^
         proposalNum++;
         proposals[proposalNum].mutableStorage = _proposal;
         proposals[proposalNum].expiry = expiration;
+        //^^^^^^effects^^^^^^^^^
     }
 
 
@@ -110,8 +115,10 @@ contract VOTE is AccessControl {
         );
 
         require(proposals[_proposalNum].reward == 0, "Proposal already ended");
+        //^^^^^^checks^^^^^^^^^
 
         proposals[_proposalNum].reward = calculatedReward;
+        //^^^^^^effects^^^^^^^^^
     }
 
     /**
@@ -128,10 +135,12 @@ contract VOTE is AccessControl {
         );
 
         require(_vote == 1 || _vote == 0, "Invalid vote");
+        //^^^^^^checks^^^^^^^^^
 
         votingStatus[_msgSender()][_proposalNum] = 1;
 
         proposals[_proposalNum].participantCount++;
+        //^^^^^^effects^^^^^^^^^
 
         if (_vote == 1) {
             proposals[_proposalNum].yes =
@@ -142,6 +151,7 @@ contract VOTE is AccessControl {
                 proposals[_proposalNum].no +
                 TOKEN.balanceOf(_msgSender());
         }
+        //^^^^^^interactions^^^^^^^^^
     }
 
 
@@ -156,10 +166,13 @@ contract VOTE is AccessControl {
             claimStatus[_msgSender()][_proposalNum] == 0,
             "User already claimed"
         );
+        //^^^^^^checks^^^^^^^^^
 
         claimStatus[_msgSender()][_proposalNum] = 1;
+        //^^^^^^effects^^^^^^^^^
 
         TOKEN.mint(_msgSender(), proposals[_proposalNum].reward);
+        //^^^^^^interactions^^^^^^^^^
     }
 
     /**
@@ -167,7 +180,9 @@ contract VOTE is AccessControl {
      * @param _proposalNum - index of proposal
      */
     function getProposal(uint256 _proposalNum) public view returns(Proposal memory) {
+        //^^^^^^checks^^^^^^^^^
         return(proposals[_proposalNum]);
+        //^^^^^^interactions^^^^^^^^^
     }
 
 }
