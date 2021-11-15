@@ -7,11 +7,10 @@
 
 // SPDX-License-Identifier: UNLICENSED
 
-pragma solidity ^0.8.7;
+pragma solidity ^0.8.0;
 
 import "./Imports/access/AccessControl.sol";
-import "./Imports/token/ERC20/extensions/ERC20Burnable.sol";
-import "./Imports/token/ERC20/extensions/ERC20Snapshot.sol";
+import "./Imports/token/ERC20/ERC20.sol";
 
 /**
  * @dev {ERC20} token, including:
@@ -21,15 +20,14 @@ import "./Imports/token/ERC20/extensions/ERC20Snapshot.sol";
  * This contract uses {AccessControl} to lock permissioned functions using the
  * different roles - head to its documentation for details.
  *
- * The account that deploys the contract will be granted the minter and pauser
+ * The account that deploys the contract will be granted the minter 
  * roles, as well as the default admin role, which will let it grant minter roles
  * to external parties
  */
 contract TOKEN is
     Context,
     AccessControl,
-    ERC20Burnable,
-    ERC20Snapshot
+    ERC20
 {
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
 
@@ -38,7 +36,7 @@ contract TOKEN is
     uint256 private _cap = 100000000000000000000000000; //100 million max supply
 
     /**
-     * @dev Grants `DEFAULT_ADMIN_ROLE`, `MINTER_ROLE` and `PAUSER_ROLE` to the
+     * @dev Grants `DEFAULT_ADMIN_ROLE`, and `MINTER_ROLE` to the
      * account that deploys the contract.
      *
      * See {ERC20-constructor}.
@@ -107,7 +105,7 @@ contract TOKEN is
     }
 
     /**
-     * @dev all paused functions are blocked here, unless caller has "pauser" role
+     * @dev 
      * @param _from - Address from which to send tokens
      * @param _to - Address to send tokens to
      * @param _amount - amount of tokens to transfer
@@ -116,7 +114,7 @@ contract TOKEN is
         address _from,
         address _to,
         uint256 _amount
-    ) internal virtual override(ERC20, ERC20Snapshot) {
+    ) internal virtual override(ERC20) {
         super._beforeTokenTransfer(_from, _to, _amount);
         if (_from == address(0)) {
             // When minting tokens

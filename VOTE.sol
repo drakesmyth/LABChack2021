@@ -28,10 +28,10 @@ contract VOTE is AccessControl {
 
     bytes32 public constant CONTRACT_ADMIN_ROLE =
         keccak256("CONTRACT_ADMIN_ROLE");
-    uint256 public tokenId;
+    uint256 public DIDmintingIndex;
     uint256 public proposalNum;
-    uint256 public airdrop = 10000; // amount to be airdropped to people upon minting of DID
-    uint256 public weekInSeconds = 604800; //week in seconds
+    uint256 public constant airdrop = 10000; // amount to be airdropped to people upon minting of DID
+    uint256 public constant weekInSeconds = 604800; //week in seconds
     address internal TOKEN_Address;
     TOKEN_Interface internal TOKEN;
 
@@ -80,9 +80,9 @@ contract VOTE is AccessControl {
      */
     function getDID() external {
         //^^^^^^checks^^^^^^^^^
-        tokenId++;
+        DIDmintingIndex++;
         //^^^^^^effects^^^^^^^^^
-        DID.mintDID(_msgSender(), tokenId);
+        DID.mintDID(_msgSender(), DIDmintingIndex);
         TOKEN.mint(_msgSender(), airdrop);
         //^^^^^^interactions^^^^^^^^^
     }

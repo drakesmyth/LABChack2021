@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.7;
+pragma solidity ^0.8.0;
 
 import "./imports/utils/Counters.sol";
 import "./imports/token/ERC721/ERC721.sol";
@@ -13,9 +13,9 @@ import "./imports/access/AccessControl.sol";
  * This contract uses {AccessControl} to lock permissioned functions using the
  * different roles - head to its documentation for details.
  *
- * The account that deploys the contract will be granted the minter and pauser
+ * The account that deploys the contract will be granted the minter 
  * roles, as well as the default admin role, which will let it grant both minter
- * and pauser roles to other accounts.
+ * and other roles to other accounts.
  */
 contract DID is Context, AccessControl, ERC721 {
     using Counters for Counters.Counter;
@@ -145,7 +145,7 @@ contract DID is Context, AccessControl, ERC721 {
     }
 
     /**
-     * @dev all paused functions are blocked here (inside ERC720Pausable.sol)
+     * @dev
      * @param _from - from address
      * @param _to - to address
      * @param _tokenId - token ID to transfer
